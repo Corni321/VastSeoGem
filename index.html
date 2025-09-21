@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vast SEO Gem</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React and ReactDOM CDNs -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel for JSX transformation -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const App = () => {
+            return (
+                <div className="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full text-center border-t-4 border-emerald-500 transform transition-all hover:scale-105">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                        Welcome to Vast SEO Gem!
+                    </h1>
+                    <p className="text-gray-600 mb-6">
+                        This is a simple landing page to confirm that your Vercel deployment is working correctly.
+                    </p>
+                    <a 
+                        href="https://vast-seo-gem.vercel.app" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="inline-block bg-emerald-500 text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-emerald-600 transition-colors"
+                    >
+                        Visit Your Deployed Site
+                    </a>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+
+</body>
+</html>
