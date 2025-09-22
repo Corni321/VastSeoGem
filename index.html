@@ -3,521 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="VAST AI Media - Professional AI consulting services for businesses. Transform your operations with cutting-edge artificial intelligence solutions. Free SEO analysis tool included.">
-    <meta name="keywords" content="AI consulting, artificial intelligence, business automation, VAST AI Media, SEO analysis, website optimization, inbound marketing, outbound marketing, reputation management, smart site, web development, SEO">
-    <meta name="author" content="VAST AI Media">
-    <title>VAST AI Media - Professional AI Consulting Services</title>
-    
+    <meta name="description" content="Vast AI Media provides AI-driven solutions and expert SEO services to boost your business.">
+    <meta name="keywords" content="AI, SEO, marketing, business, digital, growth, score, tools">
+    <meta name="author" content="VAST AI Media - Professional SEO & AI Services">
+    <title>VAST AI Media - Professional SEO & AI Services</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts - Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles */
         body {
             font-family: 'Inter', sans-serif;
-            color: #1a202c;
-        }
-        .gradient-bg {
-            background: linear-gradient(135deg, #f0f9ff 0%, #fef3e2 100%);
-        }
-        .orange-gradient {
-            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
-        }
-        .fade-in {
-            animation: fadeIn 0.6s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .text-shadow {
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-        .card-shadow {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-        }
-        .btn-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .loading-dots span {
-            animation: bounce 1.4s infinite ease-in-out both;
-        }
-        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-        .loading-dots span:nth-child(3) { animation-delay: 0s; }
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1.0); }
         }
     </style>
 </head>
-<body class="bg-white">
+<body class="bg-white text-gray-800">
 
-    <!-- Navigation Bar -->
-    <nav class="fixed top-0 left-0 w-full z-50 p-4 md:px-10 transition-all duration-300">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <a href="#home" class="flex items-center space-x-2">
-                <!-- VAST AI Media Logo -->
-                <img src="/Vast%20Ai%20Media%20Logo%20Reverse.png" alt="VAST AI Media Logo" class="h-10">
+    <!-- Header Section with Navigation -->
+    <header class="bg-white sticky top-0 z-50 shadow-md">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Corrected Logo Image Path -->
+            <!-- The src attribute is updated to match the filename exactly -->
+            <a href="index.html" class="flex items-center space-x-2">
+                <img src="Vast Ai Media Logo Reverse.png" alt="VAST AI Media Logo" class="h-10">
+                <div class="text-xl font-bold text-gray-800">VAST AI Media</div>
             </a>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#services" class="text-gray-600 hover:text-orange-600 transition-colors duration-200 font-medium">Services</a>
-                <a href="#about" class="text-gray-600 hover:text-orange-600 transition-colors duration-200 font-medium">About Us</a>
-                <a href="#contact" class="text-gray-600 hover:text-orange-600 transition-colors duration-200 font-medium">Contact Us</a>
-                <button onclick="toggleSEOForm()" class="orange-gradient text-white py-2 px-6 rounded-full font-bold btn-hover">Free SEO Analysis</button>
-            </div>
-            <button class="md:hidden text-gray-600 hover:text-orange-600 focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
-            </button>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <header id="home" class="gradient-bg pt-24 pb-20 md:pt-32 md:pb-28">
-        <div class="max-w-7xl mx-auto px-4 md:px-10 text-center fade-in">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 mb-4 leading-tight text-shadow">
-                Unlock the Power of AI for Your Business
-            </h1>
-            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                VAST AI Media provides expert AI consulting and custom solutions to help you automate, optimize, and grow.
-            </p>
-            <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
-                <a href="#services" class="orange-gradient text-white py-3 px-8 rounded-full font-bold text-lg btn-hover">
-                    Explore Services
-                </a>
-                <button onclick="toggleSEOForm()" class="bg-white text-orange-600 border-2 border-orange-600 py-3 px-8 rounded-full font-bold text-lg btn-hover">
-                    Free SEO Analysis
-                </button>
-            </div>
-        </div>
+            <!-- Navigation Links -->
+            <ul class="flex items-center space-x-6 text-gray-600">
+                <li><a href="#" class="hover:text-gray-900 transition-colors duration-200">Home</a></li>
+                <li><a href="#about" class="hover:text-gray-900 transition-colors duration-200">About</a></li>
+                <li><a href="#services" class="hover:text-gray-900 transition-colors duration-200">Services</a></li>
+                <li><a href="#contact" class="hover:text-gray-900 transition-colors duration-200">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- SEO Analysis Modal (hidden by default) -->
-    <div id="seo-modal" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden items-center justify-center p-4">
-        <div id="seo-modal-content" class="bg-white rounded-3xl p-8 max-w-xl w-full relative card-shadow fade-in">
-            <button onclick="toggleSEOForm()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-            </button>
-            <div id="seo-form-container">
-                <h2 class="text-2xl font-bold mb-4 text-center">Free SEO Analysis</h2>
-                <p class="text-center text-gray-600 mb-6">Enter your details to get a free, instant SEO report.</p>
-                <form id="seo-form" action="#" method="POST" class="space-y-4">
-                    <div>
-                        <label for="name" class="sr-only">Full Name</label>
-                        <input type="text" id="name" name="name" placeholder="Full Name" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
+    <!-- Hero Section -->
+    <main>
+        <section id="hero" class="bg-gray-50 py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-5xl font-bold text-gray-900 leading-tight">Your Partner in Digital Growth</h1>
+                <p class="mt-4 text-xl text-gray-600">Explore our solutions for AI, SEO, and more.</p>
+                <a href="#contact" class="mt-8 inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition-colors duration-300">Learn More</a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center text-gray-900">About Us</h2>
+                <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Placeholder for About content -->
+                    <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl">Our Mission</h3>
+                        <p class="mt-2 text-gray-600">To empower businesses with AI-driven solutions and expert SEO services to boost their business.</p>
                     </div>
-                    <div>
-                        <label for="phone" class="sr-only">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Phone Number" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
+                    <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl">Our Vision</h3>
+                        <p class="mt-2 text-gray-600">To be the leading provider of AI and SEO solutions, helping businesses achieve unprecedented growth.</p>
                     </div>
-                    <div>
-                        <label for="url" class="sr-only">Website URL</label>
-                        <input type="url" id="url" name="url" placeholder="https://www.example.com" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
+                    <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl">Our Values</h3>
+                        <p class="mt-2 text-gray-600">Integrity, Innovation, and Customer Success.</p>
                     </div>
-                    <button type="submit" class="orange-gradient w-full text-white py-3 px-6 rounded-xl font-bold btn-hover">Analyze My Site</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center text-gray-900">Our Services</h2>
+                <div class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Placeholder for Services content -->
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl">AI Solutions</h3>
+                        <p class="mt-2 text-gray-600">Custom AI applications to automate your workflow and enhance customer experience.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl">SEO Services</h3>
+                        <p class="mt-2 text-gray-600">Comprehensive SEO strategies to improve your search engine rankings and organic traffic.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl">Digital Marketing</h3>
+                        <p class="mt-2 text-gray-600">Data-driven marketing campaigns that deliver measurable results and ROI.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl font-bold text-gray-900">Contact Us</h2>
+                <p class="mt-4 text-xl text-gray-600">Get in touch to discuss your business needs.</p>
+                <form class="mt-8 max-w-xl mx-auto space-y-4">
+                    <input type="text" placeholder="Your Name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <textarea placeholder="Your Message" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition-colors duration-300">Send Message</button>
                 </form>
             </div>
-            <div id="seo-analysis-result" class="hidden text-center">
-                <!-- Analysis result will be displayed here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Free Consultation Modal (hidden by default) -->
-    <div id="consultation-modal" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-8 max-w-xl w-full relative card-shadow fade-in">
-            <button onclick="toggleConsultationForm()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-            </button>
-            <h2 class="text-2xl font-bold mb-4 text-center">Book a Free Consultation</h2>
-            <p class="text-center text-gray-600 mb-6">Let's discuss how AI can transform your business. Tell us about your needs and we'll get in touch.</p>
-            <form id="consultation-form" action="#" method="POST" class="space-y-4">
-                <div>
-                    <label for="full_name" class="sr-only">Full Name</label>
-                    <input type="text" id="full_name" name="full_name" placeholder="Full Name" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
-                </div>
-                <div>
-                    <label for="business_name" class="sr-only">Business Name</label>
-                    <input type="text" id="business_name" name="business_name" placeholder="Business Name" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
-                </div>
-                <div>
-                    <label for="email" class="sr-only">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Email Address" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
-                </div>
-                <div>
-                    <label for="phone_consultation" class="sr-only">Phone Number</label>
-                    <input type="tel" id="phone_consultation" name="phone_consultation" placeholder="Phone Number" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
-                </div>
-                <div>
-                    <label for="consultation_type" class="sr-only">Type of Consultation</label>
-                    <select id="consultation_type" name="consultation_type" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
-                        <option value="" disabled selected>Select a Consultation Type</option>
-                        <option value="General AI Consulting">General AI Consulting</option>
-                        <option value="AI & Automation">AI & Automation</option>
-                        <option value="AI-Driven Marketing">AI-Driven Marketing</option>
-                        <option value="Reputation Management AI">Reputation Management AI</option>
-                        <option value="Custom AI Solution">Custom AI Solution</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <button type="submit" class="orange-gradient w-full text-white py-3 px-6 rounded-xl font-bold btn-hover">Submit</button>
-            </form>
-            <div id="consultation-message" class="mt-4 text-center hidden"></div>
-        </div>
-    </div>
-
-    <!-- Services Section -->
-    <section id="services" class="py-20 md:py-28">
-        <div class="max-w-7xl mx-auto px-4 md:px-10">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Our AI Solutions</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">We provide a full spectrum of AI services to help you automate, optimize, and innovate.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Full 'Smart' Site Development -->
-                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover flex flex-col items-center text-center">
-                    <div class="bg-orange-100 text-orange-600 p-4 rounded-full mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brain"><path d="M12 18a2 2 0 1 0 0-4a2 2 0 0 0 0 4Z"/><path d="M10 20.27a8 8 0 0 0-6.19-9.59c-1.39-.78-2.3-2.38-1.74-4.15a4.24 4.24 0 0 1 4.14-2.81c.74 0 1.4-.2 1.96-.54l-.45-1.54C9.55 1.54 10.99.7 12.5.7c1.51 0 2.95.84 3.68 2.03l-.45 1.54c.56.34 1.22.54 1.96.54a4.24 4.24 0 0 1 4.14 2.81c.56 1.77-.35 3.37-1.74 4.15A8 8 0 0 0 14 20.27"/><path d="M12 21.5V23"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Full 'Smart' Site Development</h3>
-                    <p class="text-gray-600">We build high-performance websites from scratch that are engineered to attract and convert. Our sites are not just beautiful, they are **built for SEO** from the ground up, using AI-driven insights for content, keywords, and technical optimization to significantly increase organic traffic.</p>
-                </div>
-                <!-- AI & Automation Consulting -->
-                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover flex flex-col items-center text-center">
-                    <div class="bg-orange-100 text-orange-600 p-4 rounded-full mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot"><path d="M12 8V4H8"/><rect x="2" y="10" width="20" height="12" rx="2"/><path d="M6 16h12"/><path d="M12 4v2"/><path d="M20 12h-4"/><path d="M4 12h4"/><path d="M20 16v4"/><path d="M4 16v4"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">AI & Automation Consulting</h3>
-                    <p class="text-gray-600">Strategic guidance to integrate AI into your business processes and workflows for maximum efficiency and ROI.</p>
-                </div>
-                <!-- Custom AI Solutions -->
-                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover flex flex-col items-center text-center">
-                    <div class="bg-orange-100 text-orange-600 p-4 rounded-full mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code-2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Custom AI Solutions</h3>
-                    <p class="text-gray-600">Development of bespoke AI models and applications tailored to your unique business challenges.</p>
-                </div>
-                <!-- AI-Driven Inbound Marketing -->
-                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover flex flex-col items-center text-center">
-                    <div class="bg-orange-100 text-orange-600 p-4 rounded-full mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mouse-pointer-2"><path d="M4 4l12.12 12.12a3 3 0 0 0 3.16 0L20 16l-4-4-2.82-2.82a4 4 0 0 0-5.66 0L4 4z"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">AI-Driven Inbound Marketing</h3>
-                    <p class="text-gray-600">Attract, engage, and delight customers with AI-powered content, personalized email campaigns, and intelligent lead nurturing.</p>
-                </div>
-                <!-- AI-Powered Outbound Marketing -->
-                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover flex flex-col items-center text-center">
-                    <div class="bg-orange-100 text-orange-600 p-4 rounded-full mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send"><line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">AI-Powered Outbound Marketing</h3>
-                    <p class="text-gray-600">Optimize cold outreach and sales prospecting with AI to find ideal leads, automate personalized communication, and increase conversions.</p>
-                </div>
-                <!-- Reputation Management AI -->
-                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover flex flex-col items-center text-center">
-                    <div class="bg-orange-100 text-orange-600 p-4 rounded-full mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Reputation Management AI</h3>
-                    <p class="text-gray-600">Monitor and manage your brand's online reputation across multiple platforms, automating responses and flagging critical issues.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Case Studies Section -->
-    <section class="py-20 md:py-28 gradient-bg">
-        <div class="max-w-7xl mx-auto px-4 md:px-10">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Case Studies</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">See how we've helped businesses like yours achieve remarkable results with AI.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover">
-                    <h3 class="text-xl font-bold mb-2">Automated Lead Qualification</h3>
-                    <p class="text-gray-600 mb-4">We developed an AI chatbot for a SaaS company, automating the initial lead qualification process. This resulted in a 40% increase in sales team efficiency and a 25% increase in conversion rates.</p>
-                    <a href="#" class="text-orange-600 font-semibold flex items-center space-x-2">
-                        <span>Read Full Case Study</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                    </a>
-                </div>
-                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover">
-                    <h3 class="text-xl font-bold mb-2">Content Generation & SEO</h3>
-                    <p class="text-gray-600 mb-4">By implementing a custom AI content generation system, we helped a marketing agency scale their content production by 300% while maintaining high quality and SEO performance.</p>
-                    <a href="#" class="text-orange-600 font-semibold flex items-center space-x-2">
-                        <span>Read Full Case Study</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="py-20 md:py-28 gradient-bg">
-        <div class="max-w-7xl mx-auto px-4 md:px-10">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">How It Works</h2>
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Our simple, three-step process to transform your business with AI.</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover text-center">
-                    <span class="text-orange-600 text-5xl font-extrabold mb-4 block">1</span>
-                    <h3 class="text-xl font-bold mb-2">Consultation</h3>
-                    <p class="text-gray-600">We start with a deep dive into your business goals, challenges, and current workflows to identify AI opportunities.</p>
-                </div>
-                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover text-center">
-                    <span class="text-orange-600 text-5xl font-extrabold mb-4 block">2</span>
-                    <h3 class="text-xl font-bold mb-2">Solution & Implementation</h3>
-                    <p class="text-gray-600">We design and build a custom AI solution, then implement it seamlessly into your existing infrastructure.</p>
-                </div>
-                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover text-center">
-                    <span class="text-orange-600 text-5xl font-extrabold mb-4 block">3</span>
-                    <h3 class="text-xl font-bold mb-2">Support & Optimization</h3>
-                    <p class="text-gray-600">Our partnership continues with ongoing support and optimization to ensure your AI solution delivers long-term value.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 md:py-28">
-        <div class="max-w-3xl mx-auto px-4 md:px-10 text-center">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Ready to Grow with AI?</h2>
-            <p class="text-lg text-gray-600 mb-8">
-                Book a free consultation to see how VAST AI Media can help you achieve your business goals.
-            </p>
-            <button onclick="toggleConsultationForm()" class="orange-gradient w-full md:w-auto text-white py-4 px-12 rounded-xl font-bold text-lg btn-hover">Book a Free Consultation</button>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-400 py-16">
-        <div class="max-w-7xl mx-auto px-4 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
-            <!-- Company Info -->
-            <div>
-                <img src="/Vast%20Ai%20Media%20Logo%20Reverse.png" alt="VAST AI Media Logo" class="h-12 mx-auto md:mx-0 mb-4">
-                <p class="text-gray-400 mb-4">VAST AI Media - The future of business is intelligent.</p>
-                <p class="text-gray-400">© 2025 VAST AI Media. All Rights Reserved.</p>
-            </div>
-            
-            <!-- Quick Links -->
-            <div>
-                <h4 class="text-xl font-semibold text-white mb-4">Quick Links</h4>
-                <ul class="space-y-2">
-                    <li><a href="#home" class="hover:text-orange-500 transition-colors duration-200">Home</a></li>
-                    <li><a href="#services" class="hover:text-orange-500 transition-colors duration-200">Services</a></li>
-                    <li><a href="#about" class="hover:text-orange-500 transition-colors duration-200">About Us</a></li>
-                    <li><a href="#contact" class="hover:text-orange-500 transition-colors duration-200">Contact</a></li>
-                </ul>
-            </div>
-            
-            <!-- Contact & Social -->
-            <div>
-                <h4 class="text-xl font-semibold text-white mb-4">Get In Touch</h4>
-                <ul class="space-y-2 mb-4">
-                    <li class="flex items-center justify-center md:justify-start space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail text-orange-500"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                        <a href="mailto:info@vastaimedia.com" class="hover:text-orange-500 transition-colors duration-200">info@vastaimedia.com</a>
-                    </li>
-                    <li class="flex items-center justify-center md:justify-start space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone-call text-orange-500"><path d="M22 16.92v3a2 2 0 0 1-2.18 2h-15.62A2 2 0 0 1 2 19.92v-3a2 2 0 0 1 2-2h3"/><path d="M14.5 5.5l5 5"/><path d="M12 2l5 5"/><path d="M22 12l-5 5"/></svg>
-                        <a href="tel:+15551234567" class="hover:text-orange-500 transition-colors duration-200">+1 (555) 123-4567</a>
-                    </li>
-                    <li class="flex items-center justify-center md:justify-start space-x-2">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-orange-500"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                         <span>123 AI Avenue, Innovation City, 84780</span>
-                    </li>
-                </ul>
-                <div class="flex justify-center md:justify-start space-x-4">
-                    <a href="https://twitter.com" target="_blank" class="hover:text-white transition-colors duration-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-2 1-3 2c-3.5 0-6.5-1.5-9-4a1.8 1.8 0 0 0-.2 2.1c-1.3 1.1-2.5 2-4.1 2.5a2.1 2.1 0 0 0-1.8 1.2c-.3 1.1-.5 2.2-.4 3.4a9.7 9.7 0 0 0 7.8 8.1c-2.3 2-5 2.6-7.8 2.6-1 0-1.8-.1-2.6-.2a13.3 13.3 0 0 0 10.7 3.3c12.7-3.8 12.7-16.7 5.7-22.1"/></svg>
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" class="hover:text-white transition-colors duration-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 0-6 6v7h4v-7a2 2 0 0 1 2-2h.2a2 2 0 0 1 2 2v7h4v-7a6 6 0 0 0-6-6Z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-                    </a>
-                    <a href="https://facebook.com" target="_blank" class="hover:text-white transition-colors duration-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-                    </a>
-                    <a href="https://instagram.com" target="_blank" class="hover:text-white transition-colors duration-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-                    </a>
-                </div>
-            </div>
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 VAST AI Media. All rights reserved.</p>
         </div>
     </footer>
-
-    <script>
-        // Modal functionality for SEO form
-        function toggleSEOForm() {
-            const modal = document.getElementById('seo-modal');
-            modal.classList.toggle('hidden');
-            modal.classList.toggle('flex');
-        }
-
-        // Modal functionality for consultation form
-        function toggleConsultationForm() {
-            const modal = document.getElementById('consultation-modal');
-            modal.classList.toggle('hidden');
-            modal.classList.toggle('flex');
-        }
-
-        // Initialize Lucide icons
-        lucide.createIcons();
-
-        // Close modals when clicking outside of them
-        document.getElementById('seo-modal').addEventListener('click', function(event) {
-            if (event.target.id === 'seo-modal') {
-                toggleSEOForm();
-            }
-        });
-
-        document.getElementById('consultation-modal').addEventListener('click', function(event) {
-            if (event.target.id === 'consultation-modal') {
-                toggleConsultationForm();
-            }
-        });
-
-        // Handle SEO form submission
-        document.getElementById('seo-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            const form = event.target;
-            const name = form.querySelector('#name').value;
-            const phone = form.querySelector('#phone').value;
-            const url = form.querySelector('#url').value;
-            const modalContent = document.getElementById('seo-modal-content');
-
-            // Show loading state
-            modalContent.innerHTML = `
-                <div class="text-center p-8">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Analyzing Your Site...</h2>
-                    <p class="text-gray-600 mb-8">Please wait while we generate your custom SEO report. This may take a moment.</p>
-                    <div class="loading-dots flex justify-center space-x-2">
-                        <span class="w-4 h-4 bg-orange-600 rounded-full"></span>
-                        <span class="w-4 h-4 bg-orange-600 rounded-full"></span>
-                        <span class="w-4 h-4 bg-orange-600 rounded-full"></span>
-                    </div>
-                </div>
-            `;
-
-            // Simulate the analysis delay (35-60 seconds)
-            const minDelay = 35000;
-            const maxDelay = 60000;
-            const delay = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
-
-            setTimeout(() => {
-                // Generate a random score between 1 and 64
-                const score = Math.floor(Math.random() * 64) + 1;
-
-                // Send data to GHL (replace with your actual GHL form URL and ID)
-                const ghlFormUrl = 'YOUR_GHL_FORM_URL';
-                const ghlFormId = 'YOUR_GHL_FORM_ID';
-
-                // Check if the placeholders were replaced
-                if (ghlFormUrl === 'YOUR_GHL_FORM_URL' || ghlFormId === 'YOUR_GHL_FORM_ID') {
-                     console.error('Error: Please configure the GHL form URL and ID in the code.');
-                } else {
-                    const formData = new FormData();
-                    formData.append('formId', ghlFormId);
-                    formData.append('name', name);
-                    formData.append('phone', phone);
-                    formData.append('website', url);
-
-                    fetch(ghlFormUrl, {
-                        method: 'POST',
-                        body: formData,
-                    }).then(response => {
-                        if (!response.ok) {
-                            console.error('GHL submission failed:', response.statusText);
-                        }
-                    }).catch(error => {
-                        console.error('GHL submission error:', error);
-                    });
-                }
-
-                // Display the final SEO report
-                modalContent.innerHTML = `
-                    <div id="seo-report" class="text-center">
-                        <button onclick="toggleSEOForm()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                        </button>
-                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Your SEO Score: <span class="text-orange-600">${score}/100</span></h2>
-                        <p class="text-gray-600 mb-6">This score reflects a technical snapshot of your website's search engine optimization. Here's a brief breakdown of your results for <strong>${url}</strong>.</p>
-                        <ul class="text-left space-y-4 text-gray-700">
-                            <li class="bg-gray-100 p-4 rounded-xl"><strong>On-Page Optimization:</strong> Found some areas for improvement with your meta tags and headings.</li>
-                            <li class="bg-gray-100 p-4 rounded-xl"><strong>Page Speed:</strong> Your website's loading time could be faster to improve user experience.</li>
-                            <li class="bg-gray-100 p-4 rounded-xl"><strong>Mobile Friendliness:</strong> Your site is generally responsive, but some elements could be better optimized for mobile devices.</li>
-                            <li class="bg-gray-100 p-4 rounded-xl"><strong>Technical SEO:</strong> We found a few technical issues that may be impacting your site's crawlability.</li>
-                        </ul>
-                        <div class="mt-8">
-                            <p class="text-lg font-semibold text-gray-800">Ready to boost your score?</p>
-                            <p class="text-gray-600">Let's discuss how we can improve these metrics and get your site to the top of search results.</p>
-                            <button onclick="toggleConsultationForm()" class="orange-gradient text-white py-3 px-8 rounded-full font-bold text-lg mt-4 btn-hover">Book a Free Consultation</button>
-                        </div>
-                    </div>
-                `;
-            }, delay);
-        });
-
-        // Handle consultation form submission
-        document.getElementById('consultation-form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            
-            const form = event.target;
-            const messageDiv = document.getElementById('consultation-message');
-            messageDiv.classList.add('hidden'); // Hide any previous messages
-
-            // You MUST replace 'YOUR_GHL_FORM_URL' with your actual GHL form endpoint
-            // and 'YOUR_GHL_FORM_ID' with your form's unique ID.
-            // Example: https://hooks.zapier.com/hooks/catch/123456/abcdef/
-            const ghlFormUrl = 'YOUR_GHL_FORM_URL';
-            const ghlFormId = 'YOUR_GHL_FORM_ID';
-
-            // Check if the placeholders were replaced
-            if (ghlFormUrl === 'YOUR_GHL_FORM_URL' || ghlFormId === 'YOUR_GHL_FORM_ID') {
-                messageDiv.textContent = 'Error: Please configure the GHL form URL and ID in the code.';
-                messageDiv.classList.remove('hidden');
-                messageDiv.classList.add('text-red-500');
-                return;
-            }
-
-            const formData = new FormData(form);
-            formData.append('formId', ghlFormId);
-            
-            try {
-                const response = await fetch(ghlFormUrl, {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                if (response.ok) {
-                    messageDiv.textContent = 'Thank you! Your consultation request has been submitted.';
-                    messageDiv.classList.remove('hidden');
-                    messageDiv.classList.add('text-green-500');
-                    form.reset();
-                } else {
-                    messageDiv.textContent = 'Something went wrong. Please try again.';
-                    messageDiv.classList.remove('hidden');
-                    messageDiv.classList.add('text-red-500');
-                }
-            } catch (error) {
-                console.error('Submission error:', error);
-                messageDiv.textContent = 'An unexpected error occurred. Please check your network connection.';
-                messageDiv.classList.remove('hidden');
-                messageDiv.classList.add('text-red-500');
-            }
-        });
-    </script>
 </body>
 </html>
