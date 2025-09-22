@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="VAST AI Media - Professional AI consulting services for businesses. Transform your operations with cutting-edge artificial intelligence solutions. Free SEO analysis tool included.">
-    <meta name="keywords" content="AI consulting, artificial intelligence, business automation, VAST AI Media, SEO analysis, website optimization, inbound marketing, outbound marketing, reputation management">
+    <meta name="keywords" content="AI consulting, artificial intelligence, business automation, VAST AI Media, SEO analysis, website optimization, inbound marketing, outbound marketing, reputation management, smart site, web development, SEO">
     <meta name="author" content="VAST AI Media">
     <title>VAST AI Media - Professional AI Consulting Services</title>
     
@@ -47,6 +47,16 @@
         .btn-hover:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .loading-dots span {
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
         }
     </style>
 </head>
@@ -93,20 +103,32 @@
 
     <!-- SEO Analysis Modal (hidden by default) -->
     <div id="seo-modal" class="fixed inset-0 z-50 bg-black bg-opacity-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-3xl p-8 max-w-xl w-full relative card-shadow fade-in">
+        <div id="seo-modal-content" class="bg-white rounded-3xl p-8 max-w-xl w-full relative card-shadow fade-in">
             <button onclick="toggleSEOForm()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </button>
-            <h2 class="text-2xl font-bold mb-4 text-center">Free SEO Analysis</h2>
-            <p class="text-center text-gray-600 mb-6">Enter your website URL to get a free, instant SEO report.</p>
-            <form id="seo-form" action="#" method="POST" class="space-y-4">
-                <div>
-                    <label for="url" class="sr-only">Website URL</label>
-                    <input type="url" id="url" name="url" placeholder="https://www.example.com" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
-                </div>
-                <button type="submit" class="orange-gradient w-full text-white py-3 px-6 rounded-xl font-bold btn-hover">Analyze My Site</button>
-            </form>
-            <div id="seo-message" class="mt-4 text-center hidden"></div>
+            <div id="seo-form-container">
+                <h2 class="text-2xl font-bold mb-4 text-center">Free SEO Analysis</h2>
+                <p class="text-center text-gray-600 mb-6">Enter your details to get a free, instant SEO report.</p>
+                <form id="seo-form" action="#" method="POST" class="space-y-4">
+                    <div>
+                        <label for="name" class="sr-only">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Full Name" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
+                    </div>
+                    <div>
+                        <label for="phone" class="sr-only">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Phone Number" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
+                    </div>
+                    <div>
+                        <label for="url" class="sr-only">Website URL</label>
+                        <input type="url" id="url" name="url" placeholder="https://www.example.com" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
+                    </div>
+                    <button type="submit" class="orange-gradient w-full text-white py-3 px-6 rounded-xl font-bold btn-hover">Analyze My Site</button>
+                </form>
+            </div>
+            <div id="seo-analysis-result" class="hidden text-center">
+                <!-- Analysis result will be displayed here -->
+            </div>
         </div>
     </div>
 
@@ -132,8 +154,8 @@
                     <input type="email" id="email" name="email" placeholder="Email Address" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
                 </div>
                 <div>
-                    <label for="phone" class="sr-only">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Phone Number" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
+                    <label for="phone_consultation" class="sr-only">Phone Number</label>
+                    <input type="tel" id="phone_consultation" name="phone_consultation" placeholder="Phone Number" required class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-colors duration-200">
                 </div>
                 <div>
                     <label for="consultation_type" class="sr-only">Type of Consultation</label>
@@ -161,6 +183,14 @@
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto">We provide a full spectrum of AI services to help you automate, optimize, and innovate.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Full 'Smart' Site Development -->
+                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover flex flex-col items-center text-center">
+                    <div class="bg-orange-100 text-orange-600 p-4 rounded-full mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brain"><path d="M12 18a2 2 0 1 0 0-4a2 2 0 0 0 0 4Z"/><path d="M10 20.27a8 8 0 0 0-6.19-9.59c-1.39-.78-2.3-2.38-1.74-4.15a4.24 4.24 0 0 1 4.14-2.81c.74 0 1.4-.2 1.96-.54l-.45-1.54C9.55 1.54 10.99.7 12.5.7c1.51 0 2.95.84 3.68 2.03l-.45 1.54c.56.34 1.22.54 1.96.54a4.24 4.24 0 0 1 4.14 2.81c.56 1.77-.35 3.37-1.74 4.15A8 8 0 0 0 14 20.27"/><path d="M12 21.5V23"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Full 'Smart' Site Development</h3>
+                    <p class="text-gray-600">We build high-performance websites from scratch that are engineered to attract and convert. Our sites are not just beautiful, they are **built for SEO** from the ground up, using AI-driven insights for content, keywords, and technical optimization to significantly increase organic traffic.</p>
+                </div>
                 <!-- AI & Automation Consulting -->
                 <div class="bg-white p-8 rounded-3xl card-shadow btn-hover flex flex-col items-center text-center">
                     <div class="bg-orange-100 text-orange-600 p-4 rounded-full mb-6">
@@ -201,14 +231,6 @@
                     <h3 class="text-xl font-bold mb-2">Reputation Management AI</h3>
                     <p class="text-gray-600">Monitor and manage your brand's online reputation across multiple platforms, automating responses and flagging critical issues.</p>
                 </div>
-                <!-- AI-Driven SEO & Content -->
-                <div class="bg-white p-8 rounded-3xl card-shadow btn-hover flex flex-col items-center text-center">
-                    <div class="bg-orange-100 text-orange-600 p-4 rounded-full mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">AI-Driven SEO & Content</h3>
-                    <p class="text-gray-600">Leverage AI to create personalized marketing campaigns, optimize ad spend, and boost lead generation.</p>
-                </div>
             </div>
         </div>
     </section>
@@ -237,35 +259,6 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                     </a>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Us Section -->
-    <section id="about" class="py-20 md:py-28">
-        <div class="max-w-7xl mx-auto px-4 md:px-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="lg:order-2">
-                <img src="https://placehold.co/600x400/ea580c/fff?text=About+VAST+AI" alt="About VAST AI Media" class="w-full h-auto rounded-3xl card-shadow">
-            </div>
-            <div class="lg:order-1">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">About VAST AI Media</h2>
-                <p class="text-lg text-gray-600 mb-6">
-                    We are a team of AI experts and business strategists dedicated to helping small and medium-sized businesses thrive in the digital age. Our mission is to democratize access to powerful AI technologies, turning complex challenges into simple, automated solutions.
-                </p>
-                <ul class="space-y-4 text-gray-700">
-                    <li class="flex items-center space-x-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award text-orange-600"><circle cx="12" cy="8" r="6"/><path d="M15.4 14.5a2 2 0 0 1-2.8 2.8L12 17.5l-0.6-0.2a2 2 0 0 1-2.8-2.8L6 19l6 3 6-3Z"/></svg>
-                        <span>Years of experience in AI and automation.</span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-2 text-orange-600"><path d="M14 19a6 6 0 0 0-12 0"/><circle cx="8" cy="10" r="4"/><path d="M22 19a6 6 0 0 0-6-6 6 6 0 0 0-12 0"/></svg>
-                        <span>A dedicated team committed to your success.</span>
-                    </li>
-                    <li class="flex items-center space-x-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rocket text-orange-600"><path d="M4.5 16.5 2 22l5.5-2.5L13 22l-4.5-5.5L22 13l-5.5-4.5L22 2z"/></svg>
-                        <span>Solutions that drive measurable growth.</span>
-                    </li>
-                </ul>
             </div>
         </div>
     </section>
@@ -309,13 +302,58 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-gray-300 py-10">
-        <div class="max-w-7xl mx-auto px-4 md:px-10 text-center">
-            <div class="mb-4">
-                <!-- VAST AI Media Logo -->
-                <img src="/Vast%20Ai%20Media%20Logo%20Reverse.png" alt="VAST AI Media Logo" class="h-8 mx-auto">
+    <footer class="bg-gray-900 text-gray-400 py-16">
+        <div class="max-w-7xl mx-auto px-4 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+            <!-- Company Info -->
+            <div>
+                <img src="/Vast%20Ai%20Media%20Logo%20Reverse.png" alt="VAST AI Media Logo" class="h-12 mx-auto md:mx-0 mb-4">
+                <p class="text-gray-400 mb-4">VAST AI Media - The future of business is intelligent.</p>
+                <p class="text-gray-400">© 2025 VAST AI Media. All Rights Reserved.</p>
             </div>
-            <p>&copy; 2025 VAST AI Media. All Rights Reserved.</p>
+            
+            <!-- Quick Links -->
+            <div>
+                <h4 class="text-xl font-semibold text-white mb-4">Quick Links</h4>
+                <ul class="space-y-2">
+                    <li><a href="#home" class="hover:text-orange-500 transition-colors duration-200">Home</a></li>
+                    <li><a href="#services" class="hover:text-orange-500 transition-colors duration-200">Services</a></li>
+                    <li><a href="#about" class="hover:text-orange-500 transition-colors duration-200">About Us</a></li>
+                    <li><a href="#contact" class="hover:text-orange-500 transition-colors duration-200">Contact</a></li>
+                </ul>
+            </div>
+            
+            <!-- Contact & Social -->
+            <div>
+                <h4 class="text-xl font-semibold text-white mb-4">Get In Touch</h4>
+                <ul class="space-y-2 mb-4">
+                    <li class="flex items-center justify-center md:justify-start space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail text-orange-500"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        <a href="mailto:info@vastaimedia.com" class="hover:text-orange-500 transition-colors duration-200">info@vastaimedia.com</a>
+                    </li>
+                    <li class="flex items-center justify-center md:justify-start space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone-call text-orange-500"><path d="M22 16.92v3a2 2 0 0 1-2.18 2h-15.62A2 2 0 0 1 2 19.92v-3a2 2 0 0 1 2-2h3"/><path d="M14.5 5.5l5 5"/><path d="M12 2l5 5"/><path d="M22 12l-5 5"/></svg>
+                        <a href="tel:+15551234567" class="hover:text-orange-500 transition-colors duration-200">+1 (555) 123-4567</a>
+                    </li>
+                    <li class="flex items-center justify-center md:justify-start space-x-2">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-orange-500"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                         <span>123 AI Avenue, Innovation City, 84780</span>
+                    </li>
+                </ul>
+                <div class="flex justify-center md:justify-start space-x-4">
+                    <a href="https://twitter.com" target="_blank" class="hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-2 1-3 2c-3.5 0-6.5-1.5-9-4a1.8 1.8 0 0 0-.2 2.1c-1.3 1.1-2.5 2-4.1 2.5a2.1 2.1 0 0 0-1.8 1.2c-.3 1.1-.5 2.2-.4 3.4a9.7 9.7 0 0 0 7.8 8.1c-2.3 2-5 2.6-7.8 2.6-1 0-1.8-.1-2.6-.2a13.3 13.3 0 0 0 10.7 3.3c12.7-3.8 12.7-16.7 5.7-22.1"/></svg>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 0-6 6v7h4v-7a2 2 0 0 1 2-2h.2a2 2 0 0 1 2 2v7h4v-7a6 6 0 0 0-6-6Z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" class="hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="hover:text-white transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                    </a>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -348,6 +386,88 @@
             if (event.target.id === 'consultation-modal') {
                 toggleConsultationForm();
             }
+        });
+
+        // Handle SEO form submission
+        document.getElementById('seo-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const name = form.querySelector('#name').value;
+            const phone = form.querySelector('#phone').value;
+            const url = form.querySelector('#url').value;
+            const modalContent = document.getElementById('seo-modal-content');
+
+            // Show loading state
+            modalContent.innerHTML = `
+                <div class="text-center p-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Analyzing Your Site...</h2>
+                    <p class="text-gray-600 mb-8">Please wait while we generate your custom SEO report. This may take a moment.</p>
+                    <div class="loading-dots flex justify-center space-x-2">
+                        <span class="w-4 h-4 bg-orange-600 rounded-full"></span>
+                        <span class="w-4 h-4 bg-orange-600 rounded-full"></span>
+                        <span class="w-4 h-4 bg-orange-600 rounded-full"></span>
+                    </div>
+                </div>
+            `;
+
+            // Simulate the analysis delay (35-60 seconds)
+            const minDelay = 35000;
+            const maxDelay = 60000;
+            const delay = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
+
+            setTimeout(() => {
+                // Generate a random score between 1 and 64
+                const score = Math.floor(Math.random() * 64) + 1;
+
+                // Send data to GHL (replace with your actual GHL form URL and ID)
+                const ghlFormUrl = 'YOUR_GHL_FORM_URL';
+                const ghlFormId = 'YOUR_GHL_FORM_ID';
+
+                // Check if the placeholders were replaced
+                if (ghlFormUrl === 'YOUR_GHL_FORM_URL' || ghlFormId === 'YOUR_GHL_FORM_ID') {
+                     console.error('Error: Please configure the GHL form URL and ID in the code.');
+                } else {
+                    const formData = new FormData();
+                    formData.append('formId', ghlFormId);
+                    formData.append('name', name);
+                    formData.append('phone', phone);
+                    formData.append('website', url);
+
+                    fetch(ghlFormUrl, {
+                        method: 'POST',
+                        body: formData,
+                    }).then(response => {
+                        if (!response.ok) {
+                            console.error('GHL submission failed:', response.statusText);
+                        }
+                    }).catch(error => {
+                        console.error('GHL submission error:', error);
+                    });
+                }
+
+                // Display the final SEO report
+                modalContent.innerHTML = `
+                    <div id="seo-report" class="text-center">
+                        <button onclick="toggleSEOForm()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                        </button>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">Your SEO Score: <span class="text-orange-600">${score}/100</span></h2>
+                        <p class="text-gray-600 mb-6">This score reflects a technical snapshot of your website's search engine optimization. Here's a brief breakdown of your results for <strong>${url}</strong>.</p>
+                        <ul class="text-left space-y-4 text-gray-700">
+                            <li class="bg-gray-100 p-4 rounded-xl"><strong>On-Page Optimization:</strong> Found some areas for improvement with your meta tags and headings.</li>
+                            <li class="bg-gray-100 p-4 rounded-xl"><strong>Page Speed:</strong> Your website's loading time could be faster to improve user experience.</li>
+                            <li class="bg-gray-100 p-4 rounded-xl"><strong>Mobile Friendliness:</strong> Your site is generally responsive, but some elements could be better optimized for mobile devices.</li>
+                            <li class="bg-gray-100 p-4 rounded-xl"><strong>Technical SEO:</strong> We found a few technical issues that may be impacting your site's crawlability.</li>
+                        </ul>
+                        <div class="mt-8">
+                            <p class="text-lg font-semibold text-gray-800">Ready to boost your score?</p>
+                            <p class="text-gray-600">Let's discuss how we can improve these metrics and get your site to the top of search results.</p>
+                            <button onclick="toggleConsultationForm()" class="orange-gradient text-white py-3 px-8 rounded-full font-bold text-lg mt-4 btn-hover">Book a Free Consultation</button>
+                        </div>
+                    </div>
+                `;
+            }, delay);
         });
 
         // Handle consultation form submission
