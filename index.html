@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VAST AI Media - Professional AI consulting services for businesses. Transform your operations with cutting-edge artificial intelligence solutions. Free SEO analysis tool included.">
+    <meta name="keywords" content="AI consulting, artificial intelligence, business automation, VAST AI Media, SEO analysis, website optimization">
+    <meta name="author" content="VAST AI Media">
+    <title>VAST AI Media - Professional AI Consulting Services</title>
+    <link rel="icon" type="image/png" href="/vast-ai-media-logo.png">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, addDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        
+        // Use provided globals for Firebase
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        // Gemini API key - will be populated by the environment
+        const API_KEY = "";
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+
+        let db;
+        let auth;
+        let userId;
+
+        // Display user ID for debugging and multi-user functionality
+        function displayUserId() {
+            const userIdElement = document.getElementById('user-id');
+            if (userIdElement) {
+                userIdElement.textContent = `User ID: ${userId}`;
+            }
+        }
+
+        async function initFirebase() {
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                setLogLevel('debug'); // Enable debug logging for Firestore
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        console.log('User signed in:', userId);
+                        displayUserId();
+                    } else {
+                        console.log('User is signed out.');
+                    }
+                });
+
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                    console.log('Signed in with custom token.');
+                } else {
+                    await signInAnonymously(auth);
+                    console.log('Signed in anonymously.');
+                }
+
+            } catch (error) {
+                console.error("Firebase initialization error:", error);
+            }
+        }
+        
+        initFirebase();
+
+        // Handle contact form submission
+        const contactForm = document.getElementById('contact-form');
+        const formStatus = document.getElementById('form-status');
+        const submitButton = document.getElementById('submit-button');
+
+        contactForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            submitButton.disabled = true;
+            formStatus.textContent = 'Submitting...';
+            formStatus.classList.remove('text-green-600', 'text-red-600');
+            formStatus.classList.add('text-gray-600');
+
+            if (!auth.currentUser) {
+                formStatus.textContent = 'Error: Authentication not ready. Please try again.';
+                formStatus.classList.remove('text-gray-600');
+                formStatus.classList.add('text-red-600');
+                submitButton.disabled = false;
+                console.error("Authentication not ready.");
+                return;
+            }
+
+            const formData = new FormData(contactForm);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                message: formData.get('message'),
+                timestamp: new Date()
+            };
+
+            try {
+                const contactCollection = collection(db, `artifacts/${appId}/users/${userId}/contactSubmissions`);
+                await addDoc(contactCollection, data);
+
+                formStatus.textContent = 'Thank you! Your message has been sent.';
+                formStatus.classList.remove('text-gray-600');
+                formStatus.classList.add('text-green-600');
+                contactForm.reset();
+            } catch (e) {
+                console.error("Error adding document: ", e);
+                formStatus.textContent = 'Error sending message. Please try again.';
+                formStatus.classList.remove('text-gray-600');
+                formStatus.classList.add('text-red-600');
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+
+        // --- SEO Tool Functionality ---
+        const seoForm = document.getElementById('seo-form');
+        const seoResult = document.getElementById('seo-result');
+        const analyzeButton = seoForm.querySelector('button');
+
+        seoForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const url = document.getElementById('url').value;
+            const keywords = document.getElementById('keywords').value;
+
+            // Display a loading message
+            seoResult.innerHTML = `
+                <div class="flex items-center space-x-2 text-gray-600">
+                    <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Analyzing your website...</span>
+                </div>
+            `;
+            analyzeButton.disabled = true;
+
+            try {
+                // Construct the prompt for the AI
+                const prompt = `Act as a world-class SEO analyst. Provide a brief, actionable SEO analysis for the website "${url}" focusing on the keywords "${keywords}". Your response should be a concise report covering:
+                1. On-page SEO issues (e.g., meta tags, headings).
+                2. Content relevance to the keywords.
+                3. Technical SEO opportunities (e.g., page speed, mobile-friendliness).
+                4. Two or three specific, clear recommendations for improvement.
+                Format your response using Markdown headings and bullet points.`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    tools: [{ "google_search": {} }],
+                    systemInstruction: {
+                        parts: [{ text: "You are a professional SEO expert providing clear, actionable advice to small business owners." }]
+                    },
+                };
+                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API response status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (text) {
+                    // Use a simple Markdown-to-HTML conversion for a clean display
+                    const html = marked.parse(text);
+                    seoResult.innerHTML = `<div class="p-4 bg-white rounded-lg shadow-inner mt-4">
+                                            <h4 class="text-xl font-bold mb-2 text-orange-600">Analysis Report</h4>
+                                            ${html}
+                                          </div>`;
+                } else {
+                    seoResult.innerHTML = '<div class="text-red-500 mt-4">Could not generate a report. Please try again.</div>';
+                }
+
+            } catch (error) {
+                console.error("SEO analysis error:", error);
+                seoResult.innerHTML = '<div class="text-red-500 mt-4">An error occurred while analyzing your website. Please check the URL and try again.</div>';
+            } finally {
+                analyzeButton.disabled = false;
+            }
+        });
+
+        // Add a simple markdown-to-HTML parser for the SEO tool output
+        // A minimal, self-contained implementation to avoid external scripts
+        const marked = {
+            parse: function(markdown) {
+                // Replace headings
+                let html = markdown.replace(/^#\s(.+)$/gm, '<h1>$1</h1>');
+                html = html.replace(/^##\s(.+)$/gm, '<h2>$1</h2>');
+                html = html.replace(/^###\s(.+)$/gm, '<h3>$1</h3>');
+                // Replace bullet points
+                html = html.replace(/^\*\s(.+)$/gm, '<li>$1</li>');
+                html = html.replace(/^(<li>.+<\/li>)+/gm, '<ul>$1</ul>');
+                // Replace bold text
+                html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+                // Replace newlines with paragraphs
+                html = html.replace(/\n\n/g, '<p></p>');
+                return html;
+            }
+        };
+
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('bg-white', 'shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections for animation
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+        });
+    </script>
+    <style>
+        /* Custom styles */
+        .gradient-bg {
+            background: linear-gradient(135deg, #f0f9ff 0%, #fef3e2 100%);
+        }
+        .orange-gradient {
+            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800">
+
+    <!-- Header -->
+    <header class="py-2.5 px-4 shadow-lg fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 transition-all duration-300">
+        <div class="container mx-auto flex items-center justify-between">
+            <a href="#" class="text-2xl font-bold text-orange-600 flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot">
+                    <path d="M12 8V4H8"></path>
+                    <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+                    <path d="M2 14h2"></path>
+                    <path d="M20 14h2"></path>
+                    <path d="M15 13v2"></path>
+                    <path d="M9 13v2"></path>
+                </svg>
+                <span>VAST AI Media</span>
+            </a>
+            <nav class="hidden md:flex space-x-6 text-gray-600 font-semibold">
+                <a href="#about" class="hover:text-orange-600 transition-colors">About</a>
+                <a href="#services" class="hover:text-orange-600 transition-colors">Services</a>
+                <a href="#report" class="hover:text-orange-600 transition-colors">Report</a>
+                <a href="#contact" class="hover:text-orange-600 transition-colors">Contact</a>
+                <a href="#seo-tool" class="hover:text-orange-600 transition-colors">SEO Tool</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu">
+                    <line x1="4" x2="20" y1="12" y2="12"></line>
+                    <line x1="4" x2="20" y1="6" y2="6"></line>
+                    <line x1="4" x2="20" y1="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white/90 backdrop-blur-md shadow-lg py-4">
+            <div class="flex flex-col items-center space-y-4">
+                <a href="#about" class="text-gray-600 hover:text-orange-600 transition-colors">About</a>
+                <a href="#services" class="text-gray-600 hover:text-orange-600 transition-colors">Services</a>
+                <a href="#report" class="text-gray-600 hover:text-orange-600 transition-colors">Report</a>
+                <a href="#contact" class="text-gray-600 hover:text-orange-600 transition-colors">Contact</a>
+                <a href="#seo-tool" class="text-gray-600 hover:text-orange-600 transition-colors">SEO Tool</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative h-screen flex items-center justify-center text-center p-4 gradient-bg">
+            <div class="container mx-auto z-10">
+                <h1 class="text-5xl md:text-7xl font-bold text-gray-900 leading-tight mb-4 animate-fadeIn">
+                    Transform Your Business with <span class="text-orange-600">VAST AI Media</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto animate-fadeIn animation-delay-300">
+                    We provide professional AI consulting and automation solutions to help SMBs thrive in the digital age.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 animate-fadeIn animation-delay-600">
+                    <a href="#contact" class="bg-orange-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-orange-700 transition-colors transform hover:scale-105">
+                        Get a Free Consultation
+                    </a>
+                    <a href="#about" class="bg-white text-orange-600 font-semibold py-3 px-8 rounded-full border border-orange-600 hover:bg-orange-50 transition-colors transform hover:scale-105">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+                <a href="#about" class="text-orange-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down w-10 h-10">
+                        <path d="m6 9 6 6 6-6"></path>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 px-4 text-center">
+            <div class="container mx-auto max-w-3xl">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">About VAST AI Media</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    We are a team of AI specialists dedicated to helping small and medium businesses leverage the power of artificial intelligence. Our mission is to democratize access to cutting-edge technology, enabling you to automate workflows, optimize marketing efforts, and gain a competitive edge.
+                </p>
+                <p class="text-lg text-gray-600">
+                    From automated chatbots to data-driven marketing campaigns, we provide tailored solutions that deliver measurable results and empower your team to focus on what matters most.
+                </p>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-20 px-4 bg-gray-50">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-bold text-center text-gray-900 mb-12">Our Core Services</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Service Card 1 -->
+                    <div class="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center text-center transition-transform transform hover:scale-105 hover:shadow-2xl">
+                        <div class="bg-orange-100 text-orange-600 p-4 rounded-full mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail-plus w-10 h-10"><path d="M22 10V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h10"></path><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path><path d="M19 16.5V22"></path><path d="M16 19.5H22"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4 text-gray-900">Email Automation</h3>
+                        <p class="text-gray-600">
+                            Build intelligent, behavioral-based email campaigns that nurture leads and boost conversions with personalized content.
+                        </p>
+                    </div>
+                    <!-- Service Card 2 -->
+                    <div class="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center text-center transition-transform transform hover:scale-105 hover:shadow-2xl">
+                        <div class="bg-orange-100 text-orange-600 p-4 rounded-full mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog w-10 h-10"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83l-2.63 2.64a2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0l-2.64-2.64a2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83l2.63-2.64a2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0l2.64 2.64a2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82Z"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4 text-gray-900">Lead Nurturing</h3>
+                        <p class="text-gray-600">
+                            Deploy AI-driven chatbots and bots to engage prospects 24/7, qualify leads, and provide personalized support at scale.
+                        </p>
+                    </div>
+                    <!-- Service Card 3 -->
+                    <div class="bg-white rounded-xl shadow-lg p-8 flex flex-col items-center text-center transition-transform transform hover:scale-105 hover:shadow-2xl">
+                        <div class="bg-orange-100 text-orange-600 p-4 rounded-full mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2 w-10 h-10"><line x1="18" x2="18" y1="20" y2="10"></line><line x1="12" x2="12" y1="20" y2="4"></line><line x1="6" x2="6" y1="20" y2="14"></line></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4 text-gray-900">AI-Driven Analytics</h3>
+                        <p class="text-gray-600">
+                            Utilize machine learning models to analyze marketing data, predict customer behavior, and optimize campaign performance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research Report Section -->
+        <section id="report" class="py-20 px-4 text-center">
+            <div class="container mx-auto max-w-5xl">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Read Our Latest Research Report</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    Access our comprehensive analysis on the best AI-driven outbound marketing automation tools for SMBs. This report provides a deep dive into the top platforms, ROI analysis, and implementation strategies to help you gain a competitive edge.
+                </p>
+                <div class="bg-gray-100 p-8 rounded-xl shadow-lg text-left">
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-900">
+                        AI-Driven Outbound Marketing Automation Tools for SMBs
+                    </h3>
+                    <p class="mb-4 text-gray-700">
+                        **Executive Summary:** AI-driven outbound marketing tools now offer enterprise-grade functionality at accessible price points...
+                    </p>
+                    <a href="#report" class="inline-block bg-orange-600 text-white font-semibold py-2 px-6 rounded-full hover:bg-orange-700 transition-colors">
+                        Read More
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEO Tool Section -->
+        <section id="seo-tool" class="py-20 px-4 bg-gray-50">
+            <div class="container mx-auto max-w-3xl text-center">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Free AI SEO Analysis Tool</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    Enter your website URL below and our AI will provide a quick analysis of your website's SEO health and suggestions for improvement.
+                </p>
+                <form id="seo-form" class="bg-white p-8 rounded-xl shadow-lg">
+                    <div class="mb-4">
+                        <label for="url" class="block text-gray-700 font-semibold mb-2 text-left">Website URL</label>
+                        <input type="url" id="url" name="url" placeholder="https://www.example.com" required class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                    <div class="mb-6">
+                        <label for="keywords" class="block text-gray-700 font-semibold mb-2 text-left">Target Keywords (Optional)</label>
+                        <input type="text" id="keywords" name="keywords" placeholder="e.g., AI consulting, marketing automation" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                    <button type="submit" class="w-full orange-gradient text-white font-bold py-3 px-6 rounded-full hover:opacity-90 transition-opacity">
+                        Analyze My Website
+                    </button>
+                    <div id="seo-result" class="mt-6 text-left"></div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 px-4">
+            <div class="container mx-auto max-w-3xl text-center">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Get in Touch</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    Ready to transform your business with AI? Fill out the form below and we'll connect with you.
+                </p>
+                <form id="contact-form" class="bg-gray-50 p-8 rounded-xl shadow-lg">
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label for="name" class="block text-gray-700 font-semibold mb-2 text-left">Your Name</label>
+                            <input type="text" id="name" name="name" placeholder="John Doe" required class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 font-semibold mb-2 text-left">Your Email</label>
+                            <input type="email" id="email" name="email" placeholder="john.doe@example.com" required class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="message" class="block text-gray-700 font-semibold mb-2 text-left">Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Tell us about your project..." required class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"></textarea>
+                    </div>
+                    <button id="submit-button" type="submit" class="w-full orange-gradient text-white font-bold py-3 px-6 rounded-full hover:opacity-90 transition-opacity">
+                        Send Message
+                    </button>
+                    <div id="form-status" class="mt-4 text-center font-semibold"></div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-300 py-10 px-4">
+            <div class="container mx-auto text-center">
+                <p>&copy; 2025 VAST AI Media. All rights reserved.</p>
+                <p id="user-id" class="text-sm mt-2"></p>
+            </div>
+        </footer>
+    </main>
+</body>
+</html>
