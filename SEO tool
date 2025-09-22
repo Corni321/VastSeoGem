@@ -1,0 +1,171 @@
+import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
+
+const App = () => {
+  const [url, setUrl] = useState('');
+  const [keywords, setKeywords] = useState('');
+  const [report, setReport] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
+  const showErrorMessage = (message) => {
+    setModalMessage(message);
+    setShowModal(true);
+  };
+
+  const generateMockReport = (targetUrl, targetKeywords) => {
+    return {
+      title: 'Mock SEO Report for your Website',
+      url: targetUrl,
+      keywords: targetKeywords.split(',').map(kw => kw.trim()),
+      score: Math.floor(Math.random() * 101),
+      onPageAnalysis: [
+        { name: 'Title Tag', status: 'Passed', detail: 'The title is relevant to your keywords.' },
+        { name: 'Meta Description', status: 'Failed', detail: 'Meta description is too short. It should be between 50-160 characters.' },
+        { name: 'Keyword Usage', status: 'Passed', detail: 'Keywords are present in the content and title.' },
+        { name: 'Mobile-Friendliness', status: 'Passed', detail: 'The page is mobile-friendly.' },
+      ],
+    };
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!url || !keywords) {
+      showErrorMessage('Please enter both a URL and keywords.');
+      return;
+    }
+    const newReport = generateMockReport(url, keywords);
+    setReport(newReport);
+  };
+
+  const handleReset = () => {
+    setReport(null);
+    setUrl('');
+    setKeywords('');
+  };
+
+  const Modal = ({ message, onClose }) => {
+    return createPortal(
+      <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4">
+        <div className="bg-white text-gray-900 rounded-xl p-6 max-w-sm w-full text-center shadow-lg transform transition-all duration-300 scale-100">
+          <p className="font-semibold text-lg mb-4">{message}</p>
+          <button
+            onClick={onClose}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            OK
+          </button>
+        </div>
+      </div>,
+      document.body
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4 antialiased">
+      <div className="w-full max-w-3xl mx-auto p-8 bg-gray-800 rounded-2xl shadow-lg border border-gray-700">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 mb-6 text-center animate-pulse">
+          Simple SEO Analyzer
+        </h1>
+
+        {report ? (
+          <div className="space-y-6">
+            <div className="bg-gray-700 p-6 rounded-xl shadow-inner border border-gray-600">
+              <h2 className="text-2xl font-bold mb-4 text-center">SEO Report</h2>
+              <p className="text-sm text-gray-400 mb-4">Report for: <a href={report.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 font-medium">{report.url}</a></p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex flex-col items-center bg-gray-800 p-4 rounded-lg">
+                  <span className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-lime-500">{report.score}%</span>
+                  <span className="text-gray-400 mt-2">Overall Score</span>
+                </div>
+                <div className="bg-gray-800 p-4 rounded-lg">
+                  <h3 className="text-lg font-semibold mb-2 text-center text-emerald-400">Target Keywords</h3>
+                  <ul className="flex flex-wrap gap-2 justify-center">
+                    {report.keywords.map((kw, index) => (
+                      <li key={index} className="bg-emerald-500 text-white text-xs font-medium px-3 py-1 rounded-full shadow-md">
+                        {kw}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-700 p-6 rounded-xl shadow-inner border border-gray-600">
+              <h3 className="text-2xl font-bold mb-4 text-center">On-Page Analysis</h3>
+              <ul className="divide-y divide-gray-600">
+                {report.onPageAnalysis.map((item, index) => (
+                  <li key={index} className="py-4 flex items-center">
+                    <div className={`p-2 rounded-full mr-4 ${item.status === 'Passed' ? 'bg-green-500' : 'bg-red-500'}`}>
+                      {item.status === 'Passed' ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-md font-semibold text-gray-200">{item.name}</p>
+                      <p className="text-sm text-gray-400 mt-1">{item.detail}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <button
+              onClick={handleReset}
+              className="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+            >
+              Run New Report
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="url" className="block text-sm font-medium text-gray-300">
+                Website URL
+              </label>
+              <input
+                type="url"
+                id="url"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                className="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                placeholder="https://example.com"
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="keywords" className="block text-sm font-medium text-gray-300">
+                Keywords (comma-separated)
+              </label>
+              <input
+                type="text"
+                id="keywords"
+                value={keywords}
+                onChange={(e) => setKeywords(e.target.value)}
+                className="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                placeholder="seo, tool, analysis"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+            >
+              Analyze Website
+            </button>
+          </form>
+        )}
+      </div>
+
+      {showModal && <Modal message={modalMessage} onClose={() => setShowModal(false)} />}
+    </div>
+  );
+};
+
+export default App;
