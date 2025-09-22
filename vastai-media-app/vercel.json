@@ -1,0 +1,17 @@
+{
+"builds": [
+{
+"src": "vastai-media-app/package.json",
+"use": "@vercel/static-build",
+"config": {
+"distDir": "build"
+}
+}
+],
+"routes": [
+{
+"src": "/[^.]+",
+"dest": "vastai-media-app/build/index.html"
+}
+]
+}
