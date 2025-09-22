@@ -1,0 +1,3 @@
+/* This file is included for completeness in a standard React project. 
+  All styling is handled by Tailwind CSS classes directly in the App.jsx component.
+*/
